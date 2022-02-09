@@ -8,6 +8,10 @@ import javax.websocket.Session;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * @author night
+ */
 public class MyWebSocketHandler implements WebSocketHandler {
 
     private static final ConcurrentHashMap<String, WebSocketSession> SESSIONS = new ConcurrentHashMap<>(16);
@@ -33,11 +37,13 @@ public class MyWebSocketHandler implements WebSocketHandler {
         SESSIONS.put(userName, session);
         System.out.println(String.format("成功建立连接~ userName: %s", userName));
     }
+
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         String msg = message.getPayload().toString();
         System.out.println(msg);
     }
+
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         System.out.println("连接出错");
@@ -45,10 +51,12 @@ public class MyWebSocketHandler implements WebSocketHandler {
             session.close();
         }
     }
+
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
         System.out.println("连接已关闭,status:" + closeStatus);
     }
+
     @Override
     public boolean supportsPartialMessages() {
         return false;
