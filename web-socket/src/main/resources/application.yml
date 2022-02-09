@@ -1,0 +1,8 @@
+server:
+  port: 9999
+
+spring:
+  jackson:
+    #前端页面传Date值时格式化
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
