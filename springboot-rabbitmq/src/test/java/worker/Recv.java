@@ -1,20 +1,21 @@
-package com.night.test.worker;
+package worker;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DeliverCallback;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
 
-public class Send {
+public class Recv {
+
     private final static String QUEUE_NAME = "hello";
 
     public static void main(String[] args) {
         // 获取连接工厂
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("110.42.170.186");
+        factory.setHost("127.0.0.1");
         factory.setPort(5672);
         factory.setUsername("root");
         factory.setPassword("123456");
@@ -25,13 +26,20 @@ public class Send {
             Connection connection = factory.newConnection();
             // 创建通道 可以在web view 的 channels 看到创建的channel
             Channel channel = connection.createChannel();
+            // 设置每个消费者同时只能处理1条消息
+            channel.basicQos(1);
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-            for (int i = 0; i < 10; i++) {
-                String message = " Message is Hello";
-                channel.basicPublish("", QUEUE_NAME, null, message.getBytes(StandardCharsets.UTF_8));
-                System.out.println("[x] Send '" + message + "'");
-            }
+            DeliverCallback deliverCallback = ((consumerTag, delivery) -> {
+                String message = new String(delivery.getBody(), "UTF-8");
+                System.out.println("[x] Received '" + message + "'");
 
+                // 手动ACK
+                channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+            });
+
+            // 参数2 控制取消自动ACK
+            channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> {});
+            System.out.println("[*] Waiting for messages. To exit press CTRL+C");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TimeoutException e) {

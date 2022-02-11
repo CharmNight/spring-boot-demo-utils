@@ -1,4 +1,4 @@
-package com.night.test.direct;
+package topic;
 
 import com.rabbitmq.client.*;
 
@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 public class Recv {
-    private final static String EXCHANGE_NAME = "hello_direct";
+    private final static String EXCHANGE_NAME = "hello_topic";
 
     public static void main(String[] args) {
         // 获取连接工厂
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("110.42.170.186");
+        factory.setHost("127.0.0.1");
         factory.setPort(5672);
         factory.setUsername("root");
         factory.setPassword("123456");
@@ -24,9 +24,9 @@ public class Recv {
             // 创建通道 可以在web view 的 channels 看到创建的channel
             Channel channel = connection.createChannel();
             // 消费者将 channel 绑定在交换机上
-            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
+            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.TOPIC);
             String queueName = channel.queueDeclare().getQueue();
-            channel.queueBind(queueName, EXCHANGE_NAME, "/direct_log");
+            channel.queueBind(queueName, EXCHANGE_NAME, "item.*");
 
             System.out.println("[*] Waiting for messages. To exit press CTRL+C");
 

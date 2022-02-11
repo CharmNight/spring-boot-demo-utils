@@ -1,4 +1,4 @@
-package com.night.test.direct;
+package direct;
 
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
@@ -15,7 +15,7 @@ public class Send {
     public static void main(String[] args) {
         // 获取连接工厂
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("110.42.170.186");
+        factory.setHost("127.0.0.1");
         factory.setPort(5672);
         factory.setUsername("root");
         factory.setPassword("123456");

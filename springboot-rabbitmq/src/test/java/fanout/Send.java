@@ -1,5 +1,6 @@
-package com.night.test.base_model;
+package fanout;
 
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -9,26 +10,32 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
 
 public class Send {
-    private final static String QUEUE_NAME = "hello";
+    private final static String EXCHANGE_NAME = "hello";
 
     public static void main(String[] args) {
         // 获取连接工厂
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("110.42.170.186");
+        factory.setHost("127.0.0.1");
         factory.setPort(5672);
         factory.setUsername("root");
         factory.setPassword("123456");
         factory.setVirtualHost("/test");
+
 
         try {
             // 获取连接 可以在web view 的 connection部分看到新创建的连接
             Connection connection = factory.newConnection();
             // 创建通道 可以在web view 的 channels 看到创建的channel
             Channel channel = connection.createChannel();
-            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-            String message = " Message is Hello";
-            channel.basicPublish("", QUEUE_NAME, null, message.getBytes(StandardCharsets.UTF_8));
-            System.out.println("[x] Send '" + message + "'");
+
+            // 发送者声名一个交换机， 往这个交换机中发送消息， 参数2：交换机类型
+            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+
+            for (int i = 0; i < 10; i++) {
+                String message = " Message is Hello";
+                channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes(StandardCharsets.UTF_8));
+                System.out.println("[x] Send '" + message + "'");
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

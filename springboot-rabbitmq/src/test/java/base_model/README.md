@@ -1,4 +1,4 @@
-<img src="../../../../../resources/images/world.png" >
+<img src="world.png" >
 
 
 P（producer/ publisher）：生产者，发送消息的服务

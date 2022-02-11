@@ -1,17 +1,21 @@
-package com.night.test.topic;
+package topic;
 
-import com.rabbitmq.client.*;
+import com.rabbitmq.client.BuiltinExchangeType;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
 
-public class Recv {
+public class Send {
     private final static String EXCHANGE_NAME = "hello_topic";
 
     public static void main(String[] args) {
         // 获取连接工厂
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("110.42.170.186");
+        factory.setHost("127.0.0.1");
         factory.setPort(5672);
         factory.setUsername("root");
         factory.setPassword("123456");
@@ -23,21 +27,15 @@ public class Recv {
             Connection connection = factory.newConnection();
             // 创建通道 可以在web view 的 channels 看到创建的channel
             Channel channel = connection.createChannel();
-            // 消费者将 channel 绑定在交换机上
+
+            // 发送者声名一个交换机， 往这个交换机中发送消息， 参数2：交换机类型
             channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.TOPIC);
-            String queueName = channel.queueDeclare().getQueue();
-            channel.queueBind(queueName, EXCHANGE_NAME, "item.*");
 
-            System.out.println("[*] Waiting for messages. To exit press CTRL+C");
-
-            // 从 channel 中接收消息后回调
-            DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-                String message = new String(delivery.getBody(), "UTF-8");
-                System.out.println("[x] Received '" + message + "'");
-            };
-
-            channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {
-            });
+            for (int i = 0; i < 10; i++) {
+                String message = args.length < 1 ? "info: Hello World!" : String.join(" ", args);
+                channel.basicPublish(EXCHANGE_NAME, "item.insert", null, message.getBytes(StandardCharsets.UTF_8));
+                System.out.println("[x] Send '" + message + "'");
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
