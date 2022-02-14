@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @Configuration
-@EnableRabbit
+//@EnableRabbit
 public class RabbitMQConfig {
 
     @Autowired
@@ -64,6 +64,6 @@ public class RabbitMQConfig {
 
     @Bean
     public Binding directBinding(@Qualifier("directQueue") Queue queue, @Qualifier("directExchange") Exchange directExchange) {
-        return BindingBuilder.bind(queue).to(directExchange).with("direct_routingKey").noargs();
+        return BindingBuilder.bind(queue).to(directExchange).with("direct_key").noargs();
     }
 }
