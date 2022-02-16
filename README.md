@@ -9,7 +9,9 @@
 ## 已完成Demo
 
 - WebSocket
+- rabbitMQ
+- NIO Demo
+- proxy Demo
 
 ## 预计准备Demo
-
-- rabbitMQ
+- Redis
