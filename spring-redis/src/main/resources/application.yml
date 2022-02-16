@@ -1,0 +1,7 @@
+server:
+  port: 9876
+
+#spring:
+#  redis:
+#    redisson:
+#      config: classpath:redisson/redisson-demo.yml
