@@ -1,6 +1,7 @@
 package com.night.cache.controller;
 
 import com.night.cache.service.CacheService;
+import com.night.cache.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -14,6 +15,11 @@ public class CacheController {
 
     @Autowired
     private CacheService cacheService;
+
+    @GetMapping("/getCacheByController")
+    public Integer getCacheByController(@PathParam("id") Integer id){
+        return RedisUtils.get("cache::" + id);
+    }
 
     @GetMapping("/setCacheByController")
     @Cacheable(cacheNames = "cache", key = "#id")
