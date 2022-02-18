@@ -51,4 +51,21 @@ public class RedisLockTest {
 
         }
     }
+
+    @Test
+    public void aopTest(){
+        ExecutorService pool = Executors.newFixedThreadPool(100);
+        for (int i = 0; i < 100; i++) {
+            pool.execute(() -> {
+                lockService.aop(1);
+            });
+        }
+
+        while (!pool.isTerminated()){
+
+        }
+    }
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.night.lock.service;
 
 import com.night.cache.utils.RedisUtils;
+import com.night.lock.annotation.RedisLock;
 import com.night.lock.utils.RedisLockUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.RedissonReadLock;
@@ -34,6 +35,17 @@ public class LockService {
 
     private AtomicInteger size = new AtomicInteger(0);
     private AtomicInteger size2 = new AtomicInteger(0);
+
+    @RedisLock(lockName = "payLock",key = "#num")
+    public void aop(int num){
+        int random = new Random().nextInt(3);
+        try {
+            Thread.sleep(1000 * random);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(size.addAndGet(1));
+    }
 
     public void setNx(int num) {
         System.out.println(size.addAndGet(1));
