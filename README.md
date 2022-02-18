@@ -16,3 +16,6 @@
 
 ## 预计准备Demo
 - MySQL
+- Kafka
+- Zk
+
