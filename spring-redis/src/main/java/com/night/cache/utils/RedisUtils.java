@@ -18,6 +18,15 @@ public class RedisUtils {
     private static final String SPACE = " ";
 
     /**
+     * 为了方便lock 演示使用
+     * 对外暴露
+     * @return
+     */
+    public static StringRedisTemplate getStringRedisTemplate(){
+        return stringRedisTemplate;
+    }
+
+    /**
      * 指定缓存失效时间
      *
      * @param key  键
