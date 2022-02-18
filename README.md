@@ -12,6 +12,7 @@
 - rabbitMQ
 - NIO Demo
 - proxy Demo
+- Redis Demo
 
 ## 预计准备Demo
-- Redis
+- MySQL
