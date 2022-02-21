@@ -50,6 +50,9 @@ docker run -di --name=pn3 --net=net1 -p 3308:3306 -v mysql_3:/var/lib/mysql --pr
 
 ```
 ### MyCat 环境准备
+> MyCat 其实就是一个代理， 它并没有真正的数据存储， 仅仅作为转发的中间件存在
+> 
+
 
 ```Bash
 docker pull manondidi/mycat
