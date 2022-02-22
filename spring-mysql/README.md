@@ -7,10 +7,10 @@ docker pull mysql:5.7.35
 docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --name mysql -d 1d7aba917169
 ```
 
-### PXC集群环境 + MyCat
-## 安装PXC集群
+### PXC集群环境 + MyCat （这里并不添加HAProxy)
+#### 安装PXC集群
 
-### 镜像
+##### 镜像
 
 ```Bash
 # 拉取镜像
@@ -24,7 +24,7 @@ docker rmi docker.io/percona/percona-xtradb-cluster
 
 ```
 
-### 创建net网络
+##### 创建net网络
 
 ```Bash
  # 创建net1 网段
@@ -38,7 +38,7 @@ docker rmi docker.io/percona/percona-xtradb-cluster
 
 ```
 
-### 创建PXC集群
+##### 创建PXC集群
 
 ```Bash
 
@@ -49,7 +49,7 @@ docker run -di --name=pn2 --net=net1 -p 3307:3306 -v mysql_2:/var/lib/mysql --pr
 docker run -di --name=pn3 --net=net1 -p 3308:3306 -v mysql_3:/var/lib/mysql --privileged -e MYSQL_ROOT_PASSWORD=123456 -e CLUSTER_NAME=cluster1 -e XTRABACKUP_PASSWORD=123456 -e CLUSTER_JOIN=pn2 pxc:5.7  
 
 ```
-### MyCat 环境准备
+##### MyCat 环境准备
 > MyCat 其实就是一个代理， 它并没有真正的数据存储， 仅仅作为转发的中间件存在
 > 
 
@@ -70,7 +70,7 @@ docker run -p 8066:8066 -d --name mycat --net=net1 -v /docker/mycat/conf/rule.xm
 
 ```
 
-### 修改配置文件
+##### 修改配置文件
 
 
 ## Druid （德鲁伊) 
@@ -112,6 +112,7 @@ docker run -p 8066:8066 -d --name mycat --net=net1 -v /docker/mycat/conf/rule.xm
 3. openSession.clearCache()实现对一级缓存的刷新。
 
 ### 复杂SQL
+> 手动写Mapper.xml 实现
 
 ### CAS锁（乐观锁)
 > mybatis-plus 支持 注解形式的乐观锁 @Version
@@ -164,6 +165,8 @@ public ISqlInjector sqlInjector() {
     return new DefaultSqlInjector();
 }
 ```
-
+### MetaObjectHandler
+> 在数据库操作前统一前置处理器
+> 
 ## 多数据源
 > 利用 AOP切面 修改

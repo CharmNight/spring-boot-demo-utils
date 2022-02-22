@@ -10,6 +10,7 @@ spring:
 
 
 mybatis-plus:
+  # Mapper所对应的XML文件位置
   mapper-locations: classpath*:/mapper/*Mapper.xml
   global-config:
     # 关闭MP3.0自带的banner
@@ -29,4 +30,5 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     # 二级缓存开启
     cache-enabled: true
+  # Handler 配置包
   type-handlers-package: com.night.handler

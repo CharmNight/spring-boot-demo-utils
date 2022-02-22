@@ -6,6 +6,7 @@ import com.night.handler.DeleteHandler;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author night
@@ -41,4 +42,16 @@ public class UserBean implements Serializable {
      */
     @Version
     private Integer version;
+
+    /**
+     * 创建时间
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private Date createTime;
+
+    @TableField(fill = FieldFill.UPDATE)
+    private Date updateTime;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Long operationBy;
 }

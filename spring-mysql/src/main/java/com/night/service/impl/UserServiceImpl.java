@@ -6,6 +6,7 @@ import com.night.mapper.UserMapper;
 import com.night.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,5 +38,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserBean> implement
         userBean.setName(name);
         userBean.setAge(age);
         updateById(userBean);
+    }
+
+    /**
+     * 模拟获取当前用户 id
+     * @return
+     */
+    @Override
+    public Long getOperationId() {
+        List<UserBean> list = list();
+        Collections.shuffle(list);
+        return list.get(0).getId();
     }
 }

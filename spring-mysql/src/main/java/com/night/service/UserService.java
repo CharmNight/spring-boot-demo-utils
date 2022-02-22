@@ -36,4 +36,7 @@ public interface UserService extends IService<UserBean> {
      * @param age
      */
     void updateBean(Long id, String name, Integer age);
+
+    Long getOperationId();
+
 }
