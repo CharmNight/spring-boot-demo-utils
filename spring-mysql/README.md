@@ -90,6 +90,21 @@ docker run -p 8066:8066 -d --name mycat --net=net1 -v /docker/mycat/conf/rule.xm
 - UserServiceImpl
 - UserMapper
 
+### 二级缓存
+> mybatis 其实自带二级缓存
+1. 一级缓存是 属于SQLSession级别缓存。在数据库操作的时候需要构建SQLSession对象，在对象中有一个数据结构（HashMap）用于存储缓存数据。 默认开启
+2. 二级缓存是 属于 mapper级别的， 根据不同的NameSpace 划分
+
+#### 二级缓存的开启:
+1. 除了在配置文件中打开开关mybatis-plus.configuration.cache-enabled=true
+2. 还要再mapper对应开启，<cache/> @CacheNamespace
+3. 对应实体类实现Serializable接口
+
+如果某个sql语句要禁用二级缓存，需要在具体的xml的sql语句定义处加上useCache="flase"
+#### 扩展
+1. 在mapper的同一个namespace中，如果有其他的inset，update，delete操作后需要刷新缓存，如果不执行刷新缓存操作会出现脏读。
+2. 设置statement配置中flushCache="true"属性，可以实现二级缓存的刷新，false可能出现脏读。
+3. openSession.clearCache()实现对一级缓存的刷新。
 
 ### 自定义
 #### 自定义转换 TypeHandler
