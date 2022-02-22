@@ -22,6 +22,8 @@ mybatis-plus:
       # 默认数据库表下划线命名
       table-underline: true
   configuration:
+    # 日志打印
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 二级缓存开启
     cache-enabled: true
   type-handlers-package: com.night.handler
