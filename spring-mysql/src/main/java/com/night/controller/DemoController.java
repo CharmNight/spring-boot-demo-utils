@@ -21,6 +21,16 @@ public class DemoController {
         userService.saveBean(name, age);
     }
 
+    @GetMapping("/update")
+    public void update(@PathParam("id") Long id, @PathParam("name") String name, @PathParam("age") Integer age){
+        userService.updateBean(id, name, age);
+    }
+
+    @GetMapping("/delete")
+    public void delete(@PathParam("id") Long id){
+        userService.deleteBean(id);
+    }
+
     @GetMapping("/list")
     public ResponseEntity<List<UserBean>> doList(){
         return ResponseEntity.ok(userService.doList());

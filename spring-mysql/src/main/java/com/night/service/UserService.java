@@ -22,4 +22,18 @@ public interface UserService extends IService<UserBean> {
      * @return
      */
     List<UserBean> doList();
+
+    /**
+     * 删除
+     * @param id
+     */
+    void deleteBean(Long id);
+
+    /**
+     * 更新
+     * @param id
+     * @param name
+     * @param age
+     */
+    void updateBean(Long id, String name, Integer age);
 }

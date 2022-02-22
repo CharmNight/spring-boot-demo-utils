@@ -90,6 +90,11 @@ docker run -p 8066:8066 -d --name mycat --net=net1 -v /docker/mycat/conf/rule.xm
 - UserServiceImpl
 - UserMapper
 
+### 自定义
+#### 自定义转换 TypeHandler
+> 在我们的项目中,可能会涉及到状态类型的枚举到数据库字段的映射转换,此时就需要使用TypeHandler,
+
+
 ### 二级缓存
 > mybatis 其实自带二级缓存
 1. 一级缓存是 属于SQLSession级别缓存。在数据库操作的时候需要构建SQLSession对象，在对象中有一个数据结构（HashMap）用于存储缓存数据。 默认开启
@@ -106,16 +111,59 @@ docker run -p 8066:8066 -d --name mycat --net=net1 -v /docker/mycat/conf/rule.xm
 2. 设置statement配置中flushCache="true"属性，可以实现二级缓存的刷新，false可能出现脏读。
 3. openSession.clearCache()实现对一级缓存的刷新。
 
-### 自定义
-#### 自定义转换 TypeHandler
-> 在我们的项目中,可能会涉及到状态类型的枚举到数据库字段的映射转换,此时就需要使用TypeHandler,
-
-
-### 缓存设置
-
 ### 复杂SQL
 
 ### CAS锁（乐观锁)
+> mybatis-plus 支持 注解形式的乐观锁 @Version
+>
+#### 配置文件配置
+```shell
+/**
+ * 乐观锁插件
+ * @return
+ */
+@Bean
+public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+    return new OptimisticLockerInterceptor();
+}
+```
+操作结果
+```shell
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@4d2353ac] was not registered for synchronization because synchronization is not active
+JDBC Connection [com.mysql.cj.jdbc.ConnectionImpl@19515f9c] will not be managed by Spring
+==>  Preparing: UPDATE t_user SET name=?, age=?, version=? WHERE id=? AND version=? AND is_delete=0
+==> Parameters: night(String), 123(Integer), 1(Integer), 9(Long), 0(Integer)
+<==    Updates: 1
+```
+#### 乐观锁实现方式：
 
+取出记录时，获取当前 version
+
+更新时，带上这个version
+
+执行更新时， set version = newVersion where version = oldVersion
+
+如果version不对，就更新失败
+
+### 逻辑删除
+> 通过添加 is_delete 字段逻辑控制数据
+> 
+> 在is_delete 字段上添加注解 @TableLogic
+> 
+#### 配置文件
+```shell
+/**
+ * 逻辑删除插件
+ *
+ * @return LogicSqlInjector
+ */
+@Bean
+@ConditionalOnMissingBean
+public ISqlInjector sqlInjector() {
+    return new DefaultSqlInjector();
+}
+```
 
 ## 多数据源
+> 利用 AOP切面 修改

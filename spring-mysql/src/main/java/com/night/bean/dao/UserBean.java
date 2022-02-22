@@ -1,8 +1,6 @@
 package com.night.bean.dao;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.night.bean.enums.DeleteEnum;
 import com.night.handler.DeleteHandler;
 import lombok.Data;
@@ -34,6 +32,13 @@ public class UserBean implements Serializable {
      * 是否删除
      * default 0 delete 1
      */
+    @TableLogic
     @TableField(value = "is_delete", typeHandler = DeleteHandler.class)
     private DeleteEnum isDelete;
+
+    /**
+     * 版本号 乐观锁
+     */
+    @Version
+    private Integer version;
 }

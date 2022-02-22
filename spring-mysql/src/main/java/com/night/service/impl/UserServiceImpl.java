@@ -25,4 +25,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserBean> implement
     public List<UserBean> doList() {
         return list();
     }
+
+    @Override
+    public void deleteBean(Long id) {
+        removeById(id);
+    }
+
+    @Override
+    public void updateBean(Long id, String name, Integer age) {
+        UserBean userBean = getById(id);
+        userBean.setName(name);
+        userBean.setAge(age);
+        updateById(userBean);
+    }
 }

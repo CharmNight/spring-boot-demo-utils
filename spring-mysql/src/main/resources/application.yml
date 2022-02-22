@@ -21,6 +21,9 @@ mybatis-plus:
       field-strategy: NOT_NULL
       # 默认数据库表下划线命名
       table-underline: true
+      # 逻辑删除
+      logic-delete-field: 1
+      logic-not-delete-value: 0
   configuration:
     # 日志打印
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
