@@ -92,6 +92,9 @@ docker run -p 8066:8066 -d --name mycat --net=net1 -v /docker/mycat/conf/rule.xm
 
 
 ### 自定义
+#### 自定义转换 TypeHandler
+> 在我们的项目中,可能会涉及到状态类型的枚举到数据库字段的映射转换,此时就需要使用TypeHandler,
+
 
 ### 缓存设置
 
