@@ -13,9 +13,9 @@
 - NIO Demo
 - proxy Demo
 - Redis Demo
+- MySQL
 
 ## 预计准备Demo
-- MySQL
 - Kafka
 - Zk
 
