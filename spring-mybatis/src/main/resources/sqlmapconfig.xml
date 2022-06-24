@@ -4,7 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-<!--    指定 使用的日志格式-->
+    <!-- 引入外部配置 -->
+    <properties resource="jdbc.properties"/>
+
+    <!-- 指定 使用的日志格式-->
     <settings>
         <setting name="logImpl" value="LOG4J2"/>
     </settings>
@@ -13,15 +16,17 @@
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://logcalhost:3306/test?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
-                <property name="username" value="root"/>
-                <property name="password" value="123456"/>
+                <property name="driver" value="${jdbc_driver}"/>
+                <property name="url" value="${jdbc_url}"/>
+                <property name="username" value="${jdbc_username}"/>
+                <property name="password" value="${jdbc_password}"/>
             </dataSource>
         </environment>
     </environments>
-<!--    加载多个Mapper映射文件-->
+    <!-- 加载多个Mapper映射文件-->
     <mappers>
-        <mapper resource="com/night/mapper/MybatisMapper.xml"/>
+        <!--<mapper resource="com/night/mapper/MybatisMapper.xml"/>-->
+        <!-- 使用包扫描的形式-->
+        <package name="com.night.mapper"/>
     </mappers>
 </configuration>
