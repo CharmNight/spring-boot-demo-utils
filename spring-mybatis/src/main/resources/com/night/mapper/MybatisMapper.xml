@@ -7,4 +7,11 @@
     <select id="findAll" resultType="com.night.pojo.UserPojo">
         select * from t_user;
     </select>
+
+    <select id="findById" resultType="com.night.pojo.UserPojo">
+        select * from t_user where id = #{id};
+    </select>
+    <select id="findById2" resultType="com.night.pojo.UserPojo">
+        select * from t_user where id = ${id};
+    </select>
 </mapper>

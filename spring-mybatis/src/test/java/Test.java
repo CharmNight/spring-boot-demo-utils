@@ -21,6 +21,24 @@ public class Test {
         SqlSessionFactory factory = sqlSessionFactoryBuilder.build(resourceAsFile);
         SqlSession sqlSession = factory.openSession();
         List<UserPojo> findAll = sqlSession.selectList("findAll");
+
+        System.out.println(findAll);
+
+        sqlSession.close();
+    }
+    @org.junit.Test
+    public void Test2(){
+        SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
+        InputStream resourceAsFile = null;
+        try {
+            resourceAsFile = Resources.getResourceAsStream("sqlmapconfig.xml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        SqlSessionFactory factory = sqlSessionFactoryBuilder.build(resourceAsFile);
+        SqlSession sqlSession = factory.openSession();
+        List<UserPojo> findAll = sqlSession.selectList("findById", 6);
+
         System.out.println(findAll);
 
         sqlSession.close();
